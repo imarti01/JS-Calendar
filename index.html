@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Calendar</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>JS Calendar</h1>
+      <button>Add Event</button>
+    </header>
+    <main></main>
+
+    <div class="modal-add-event">
+      <button>🗙</button>
+      <h2>New Event</h2>
+      <form>
+        <label>
+          Title:
+          <input type="text" name="title" />
+        </label>
+        <label>
+          Initial date:
+          <input type="datetime-local" name="datetime-start" />
+        </label>
+        <label>
+          <input type="checkbox" />
+          End date
+        </label>
+        <label>
+          End date:
+          <input type="datetime-local" name="datetime-finish" />
+        </label>
+        <label>
+          <input type="checkbox" />
+          Remind me when this event expires
+        </label>
+        <label>
+          &#128276;
+          <select name="time">
+            <option value="5min">5 minutes before</option>
+            <option value="10min">10 minutes before</option>
+            <option value="15min">15 minutes before</option>
+            <option value="30min">30 minutes before</option>
+            <option value="1hour">1 hour before</option>
+          </select>
+        </label>
+        <label>
+          Color reminder:
+          <input type="color" name="color" />
+        </label>
+        <label>
+          Description:
+          <textarea
+            name="description"
+            cols="30"
+            rows="7"
+            maxlength="500"
+          ></textarea>
+        </label>
+        <label>
+          Type:
+          <select name="type">
+            <option value="meeting">Meeting</option>
+            <option value="personal">Personal</option>
+            <option value="study">Study</option>
+            <option value="medical">Medical</option>
+            <option value="other">Other</option>
+          </select>
+        </label>
+        <button>Cancel</button>
+        <button>Create</button>
+      </form>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
