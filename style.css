@@ -66,6 +66,10 @@ main {
   margin: 0.1vw 0.3vw;
 }
 
+.todayDay {
+  border: 3px solid black;
+}
+
 .modal-add-event {
   height: 100vh;
   width: 100%;
