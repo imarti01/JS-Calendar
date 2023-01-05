@@ -8,75 +8,76 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header>
-      <h1>JS Calendar</h1>
-      <button>Add Event</button>
-    </header>
-    <main>
-      <div class="container-today">
-        <h2 id="leftArrow">⮜</h2>
-        <h2 id="today"></h2>
-        <h2 id="rightArrow">⮞</h2>
-      </div>
-      <div class="container-calendar">
-        <div class="days-calendar">
-          <div>Monday</div>
-          <div>Tuesday</div>
-          <div>Wednesday</div>
-          <div>Thursday</div>
-          <div>Friday</div>
-          <div>Saturday</div>
-          <div>Sunday</div>
+    <div class="container-main-page">
+      <header>
+        <h1>JS Calendar</h1>
+        <button id="addNewEvent">Add Event</button>
+      </header>
+      <main>
+        <div class="container-today">
+          <h2 id="leftArrow">⮜</h2>
+          <h2 id="today"></h2>
+          <h2 id="rightArrow">⮞</h2>
         </div>
-        <div class="calendar">
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
-          <div class="days"></div>
+        <div class="container-calendar">
+          <div class="days-calendar">
+            <div>Monday</div>
+            <div>Tuesday</div>
+            <div>Wednesday</div>
+            <div>Thursday</div>
+            <div>Friday</div>
+            <div>Saturday</div>
+            <div>Sunday</div>
+          </div>
+          <div class="calendar">
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+            <div class="days"></div>
+          </div>
         </div>
-      </div>
-    </main>
-
-    <div class="modal-add-event">
-      <button>🗙</button>
+      </main>
+    </div>
+    <div class="modal-add-edit-event">
+      <button id="closeModal">🗙</button>
       <h2>New Event</h2>
       <form>
         <label>
@@ -102,6 +103,7 @@
         <label>
           &#128276;
           <select name="time-remind">
+            <option value="" disabled selected>Choose an option</option>
             <option value="5min">5 minutes before</option>
             <option value="10min">10 minutes before</option>
             <option value="15min">15 minutes before</option>
@@ -125,6 +127,7 @@
         <label>
           Type:
           <select name="type">
+            <option value="" disabled selected>Choose an option</option>
             <option value="meeting">Meeting</option>
             <option value="personal">Personal</option>
             <option value="study">Study</option>
@@ -132,10 +135,17 @@
             <option value="other">Other</option>
           </select>
         </label>
-        <button type="reset" id="cancelModalAddEvent">Cancel</button>
-        <button id="createEvent">Create</button>
+        <div class="modal-container-btn-add">
+          <button type="reset" id="cancelModalAddEvent">Cancel</button>
+          <button id="createEvent">Create</button>
+        </div>
+        <div class="modal-container-btn-edit">
+          <button id="deleteEvent">Delete Event</button>
+          <button id="editEvent">Save Changes</button>
+        </div>
       </form>
     </div>
+
     <script src="app.js"></script>
   </body>
 </html>
