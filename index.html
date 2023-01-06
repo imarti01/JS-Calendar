@@ -82,27 +82,31 @@
       <form>
         <label>
           Title:
-          <input type="text" name="title" />
+          <input type="text" name="title" required />
         </label>
         <label>
           Initial date:
-          <input type="datetime-local" name="datetime-start" />
+          <input type="datetime-local" name="datetime-start" required />
         </label>
         <label>
-          <input type="checkbox" />
+          <input type="checkbox" id="checkEndDate" />
           End date
         </label>
-        <label>
+        <label class="datetime-finish">
           End date:
-          <input type="datetime-local" name="datetime-finish" />
+          <input
+            type="datetime-local"
+            name="datetime-finish"
+            class="datetime-finish"
+          />
         </label>
         <label>
-          <input type="checkbox" />
+          <input type="checkbox" id="checkReminder" />
           Remind me when this event expires
         </label>
-        <label>
+        <label class="reminder">
           &#128276;
-          <select name="time-remind">
+          <select name="time-remind" class="reminder">
             <option value="" disabled selected>Choose an option</option>
             <option value="5min">5 minutes before</option>
             <option value="10min">10 minutes before</option>
@@ -113,7 +117,7 @@
         </label>
         <label>
           Color reminder:
-          <input type="color" name="color" />
+          <input type="color" value="#227C70" name="color" />
         </label>
         <label>
           Description:

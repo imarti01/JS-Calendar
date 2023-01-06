@@ -19,6 +19,10 @@ const btnCloseModal = document.getElementById("closeModal");
 const containerMainPage = document.querySelector(".container-main-page");
 const modalButtonsAdd = document.querySelector(".modal-container-btn-add");
 const modalButtonsEdit = document.querySelector(".modal-container-btn-edit");
+const checkEndDate = document.getElementById("checkEndDate");
+const endDateInfo = document.getElementsByClassName("datetime-finish");
+const checkReminder = document.getElementById("checkReminder");
+const reminderInfo = document.getElementsByClassName("reminder");
 
 const todayDate = new Date();
 let [month, year] = [todayDate.getMonth(), todayDate.getFullYear()];
@@ -46,6 +50,7 @@ const arrMonths = [
 
 window.addEventListener("load", printDaysOnCalendar);
 window.addEventListener("load", printEventsOnCalendar);
+window.addEventListener("load", startRemindEvents);
 window.addEventListener("keydown", closeModalWithEscapeKey);
 btnCreateEvent.addEventListener("click", addNewEvent);
 btnEditEvent.addEventListener("click", saveChangesEditedEvent);
@@ -55,6 +60,8 @@ btnAddNewEvent.addEventListener("click", startCreateNewEvent);
 btnDeleteEvent.addEventListener("click", deleteEvent);
 btnCancelModalAddEvent.addEventListener("click", closeModal);
 btnCloseModal.addEventListener("click", closeModal);
+checkEndDate.addEventListener("change", showEndDate, false);
+checkReminder.addEventListener("change", showReminder, false);
 
 function printDaysOnCalendar() {
   todayText.innerText = `${arrMonths[month]} ${year}`;
@@ -97,6 +104,26 @@ function printEventsOnCalendar() {
   }
 }
 
+function startRemindEvents() {
+  if (arrOfEvents) {
+    handleRemindEvents();
+    setInterval(handleRemindEvents, 10000);
+  }
+}
+
+function handleRemindEvents() {
+  let now = Date.now();
+  for (let i = 0; i < arrOfEvents.length; i++) {
+    const date = new Date(arrOfEvents[i].initialDate).getTime();
+    if (date - now < 0) {
+      const expiredEvent = document.querySelector(
+        `[data-event-id="${arrOfEvents[i].id}"]`
+      );
+      expiredEvent.classList.add("expired-event");
+      expiredEvent.removeAttribute("style");
+    }
+  }
+}
 function printNewEventOnCalendar() {
   if (
     new Date(currentEvent.initialDate).getFullYear() === year &&
@@ -119,6 +146,9 @@ function createDivToShowEvent(event) {
 function openModal() {
   modalAddEditEvent.classList.add("modal-active");
   containerMainPage.classList.add("background-modal-active");
+  setTimeout(() => {
+    containerMainPage.addEventListener("click", closeModal);
+  }, 1);
 }
 
 function closeModal() {
@@ -126,6 +156,7 @@ function closeModal() {
   containerMainPage.classList.remove("background-modal-active");
   modalButtonsAdd.className = "modal-container-btn-add";
   modalButtonsEdit.className = "modal-container-btn-edit";
+  containerMainPage.removeEventListener("click", closeModal);
   currentEvent = {};
 }
 
@@ -153,14 +184,16 @@ function openEvent(e) {
 }
 
 function addNewEvent(e) {
-  e.preventDefault();
-  currentEvent.id = Date.now();
-  changeValuesCurrentEvent();
-  arrOfEvents.push(currentEvent);
-  localStorage.setItem("events", JSON.stringify(arrOfEvents));
-  printNewEventOnCalendar();
-  resetModalValues();
-  closeModal();
+  if (titleEvent.value && datetimeStartEvent.value) {
+    e.preventDefault();
+    currentEvent.id = Date.now();
+    changeValuesCurrentEvent();
+    arrOfEvents.push(currentEvent);
+    localStorage.setItem("events", JSON.stringify(arrOfEvents));
+    printNewEventOnCalendar();
+    resetModalValues();
+    closeModal();
+  }
 }
 
 function saveChangesEditedEvent(e) {
@@ -227,6 +260,32 @@ function deleteEvent(e) {
   closeModal();
 }
 
+function showEndDate() {
+  const isChecked = checkEndDate.checked;
+  if (isChecked) {
+    for (element of endDateInfo) {
+      element.classList.add("datetime-finish-active");
+    }
+  } else {
+    for (element of endDateInfo) {
+      element.classList.remove("datetime-finish-active");
+    }
+  }
+}
+
+function showReminder() {
+  const isChecked = checkReminder.checked;
+  if (isChecked) {
+    for (element of reminderInfo) {
+      element.classList.add("reminder-active");
+    }
+  } else {
+    for (element of reminderInfo) {
+      element.classList.remove("reminder-active");
+    }
+  }
+}
+
 function deletePrintedDays() {
   for (day of daysOfCalendar) {
     day.textContent = "";
@@ -249,6 +308,7 @@ function moveTowardsLeft() {
   deletePrintedDays();
   printDaysOnCalendar();
   printEventsOnCalendar();
+  handleRemindEvents();
 }
 
 function moveTowardsRight() {
@@ -267,4 +327,5 @@ function moveTowardsRight() {
   deletePrintedDays();
   printDaysOnCalendar();
   printEventsOnCalendar();
+  handleRemindEvents();
 }
