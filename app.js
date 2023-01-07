@@ -1,5 +1,8 @@
 const todayText = document.getElementById("today");
 const daysOfCalendar = document.getElementsByClassName("days");
+const containerToDisplayEvents = document.getElementsByClassName(
+  "container-display-events"
+);
 const titleEvent = document.querySelector('[name = "title"]');
 const datetimeStartEvent = document.querySelector('[name="datetime-start"]');
 const datetimeFinishEvent = document.querySelector('[name="datetime-finish"]');
@@ -23,6 +26,11 @@ const checkEndDate = document.getElementById("checkEndDate");
 const endDateInfo = document.getElementsByClassName("datetime-finish");
 const checkReminder = document.getElementById("checkReminder");
 const reminderInfo = document.getElementsByClassName("reminder");
+const warningEventExpired = document.querySelector(".warning-event-expired");
+const containerEventsExpired = document.getElementById(
+  "containerEventsExpired"
+);
+const btnCloseWarningExpired = document.getElementById("closeWarningExpired");
 
 const todayDate = new Date();
 let [month, year] = [todayDate.getMonth(), todayDate.getFullYear()];
@@ -62,6 +70,10 @@ btnCancelModalAddEvent.addEventListener("click", closeModal);
 btnCloseModal.addEventListener("click", closeModal);
 checkEndDate.addEventListener("change", showEndDate, false);
 checkReminder.addEventListener("change", showReminder, false);
+btnCloseWarningExpired.addEventListener("click", closeWarningExpiredEvent);
+for (let i = 0; i < containerToDisplayEvents.length; i++) {
+  containerToDisplayEvents[i].addEventListener("mouseover", showButtonAdd);
+}
 
 function printDaysOnCalendar() {
   todayText.innerText = `${arrMonths[month]} ${year}`;
@@ -75,7 +87,17 @@ function printDaysOnCalendar() {
   }
 
   for (let i = 0; i < numberOfDaysMonth; i++) {
-    daysOfCalendar[i + divStartPrint].textContent = i + 1;
+    daysOfCalendar[i + divStartPrint].insertAdjacentHTML(
+      "afterbegin",
+      ` 
+          <h4>${i + 1}</h4>
+          <div class="container-display-events" dayOfWeek=${i + 1}></div>
+          <button btnDayOfWeek=${i + 1} class="btn-disactivated">+</button>
+           `
+    );
+    document
+      .querySelector(`[btnDayOfWeek="${i + 1}"]`)
+      .addEventListener("click", openModalWithDate);
   }
 
   if (todayDate.getMonth() === month && todayDate.getFullYear() === year) {
@@ -83,6 +105,25 @@ function printDaysOnCalendar() {
       "todayDay"
     );
   }
+
+  for (let i = 0; i < containerToDisplayEvents.length; i++) {
+    containerToDisplayEvents[i].addEventListener("mouseover", showButtonAdd);
+    containerToDisplayEvents[i].addEventListener("mouseout", hideButtonAdd);
+  }
+}
+
+function openModalWithDate(e) {
+  let monthTwoDigits = month + 1;
+  if (monthTwoDigits < 10) {
+    monthTwoDigits = "0" + monthTwoDigits;
+    console.log(monthTwoDigits);
+  }
+  let dayOfWeek = e.target.attributes[0].value;
+  if (dayOfWeek < 10) {
+    dayOfWeek = "0" + dayOfWeek;
+  }
+  datetimeStartEvent.value = `${year}-${monthTwoDigits}-${dayOfWeek}T09:00`;
+  startCreateNewEvent();
 }
 
 function printEventsOnCalendar() {
@@ -113,17 +154,63 @@ function startRemindEvents() {
 
 function handleRemindEvents() {
   let now = Date.now();
+
   for (let i = 0; i < arrOfEvents.length; i++) {
     const date = new Date(arrOfEvents[i].initialDate).getTime();
-    if (date - now < 0) {
+    if (date - now <= 0) {
       const expiredEvent = document.querySelector(
         `[data-event-id="${arrOfEvents[i].id}"]`
       );
-      expiredEvent.classList.add("expired-event");
-      expiredEvent.removeAttribute("style");
+      if (expiredEvent !== null) {
+        expiredEvent.classList.add("expired-event");
+        expiredEvent.removeAttribute("style");
+      }
     }
+    showWarningExpiredEvent(now, date, i);
   }
 }
+
+function showButtonAdd(e) {
+  if (e.target.classList[0] === "container-display-events") {
+    let btnToAdd = document.querySelector(
+      `[btnDayOfWeek='${e.target.attributes[1].value}']`
+    );
+    btnToAdd.classList.add("btn-activated");
+  }
+}
+
+function hideButtonAdd(e) {
+  if (e.target.classList[0] === "container-display-events") {
+    let btnToAdd = document.querySelector(
+      `[btnDayOfWeek='${e.target.attributes[1].value}']`
+    );
+    btnToAdd.classList.remove("btn-activated");
+  }
+}
+
+function showWarningExpiredEvent(dateNow, dateEvent, idxOfArrOfEvents) {
+  if (dateEvent - dateNow > -10000 && dateEvent - dateNow <= 0) {
+    containerEventsExpired.insertAdjacentHTML(
+      "afterbegin",
+      ` <h4>The event
+        <span class="title-event-expired">${arrOfEvents[idxOfArrOfEvents].title}</span>
+        has just expired.</h4>`
+    );
+    warningEventExpired.className = "warning-event-expired warning-active";
+    containerMainPage.classList.add("background-modal-active");
+    setTimeout(() => {
+      containerMainPage.addEventListener("click", closeWarningExpiredEvent);
+    }, 1);
+  }
+}
+
+function closeWarningExpiredEvent() {
+  containerEventsExpired.textContent = "";
+  warningEventExpired.classList.remove("warning-active");
+  containerMainPage.classList.remove("background-modal-active");
+  containerMainPage.removeEventListener("click", closeWarningExpiredEvent);
+}
+
 function printNewEventOnCalendar() {
   if (
     new Date(currentEvent.initialDate).getFullYear() === year &&
@@ -134,13 +221,14 @@ function printNewEventOnCalendar() {
 }
 
 function createDivToShowEvent(event) {
+  console.log(event);
   const eventToPrint = document.createElement("div");
   eventToPrint.setAttribute("data-event-id", event.id);
   eventToPrint.addEventListener("click", openEvent);
   eventToPrint.textContent = event.title;
   eventToPrint.style.backgroundColor = event.color;
   const day = new Date(event.initialDate).getDate();
-  daysOfCalendar[day + divStartPrint - 1].appendChild(eventToPrint);
+  containerToDisplayEvents[day - 1].appendChild(eventToPrint);
 }
 
 function openModal() {
@@ -161,7 +249,10 @@ function closeModal() {
 }
 
 function closeModalWithEscapeKey(e) {
-  if (e.code === "Escape") closeModal();
+  if (e.code === "Escape") {
+    closeModal();
+    closeWarningExpiredEvent();
+  }
 }
 
 function openEvent(e) {
@@ -240,7 +331,7 @@ function resetModalValues() {
   datetimeStartEvent.value = "";
   datetimeFinishEvent.value = "";
   timeRemindEvent.value = "";
-  colorEvent.value = "";
+  colorEvent.value = "#227C70";
   descriptionEvent.value = "";
   typeOfEvent.value = "";
 }

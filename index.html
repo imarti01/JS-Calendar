@@ -82,7 +82,7 @@
       <form>
         <label>
           Title:
-          <input type="text" name="title" required />
+          <input type="text" name="title" maxlength="60" required />
         </label>
         <label>
           Initial date:
@@ -149,7 +149,11 @@
         </div>
       </form>
     </div>
-
+    <div class="warning-event-expired">
+      <button id="closeWarningExpired">🗙</button>
+      <h2 class="warning-symbol-expired">&#9888;</h2>
+      <div id="containerEventsExpired"></div>
+    </div>
     <script src="app.js"></script>
   </body>
 </html>
