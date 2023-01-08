@@ -1,0 +1,505 @@
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Ubuntu";
+  color: #9a9b94;
+}
+
+.container-main-page {
+  height: 100vh;
+  width: 100vw;
+}
+
+.background-modal-active {
+  filter: blur(3px) contrast(0.8) brightness(0.8);
+}
+
+header {
+  height: 7vh;
+  width: 100%;
+  background-color: #52524e;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0em 1em 0em 1em;
+}
+
+header button {
+  padding: 0.3em 0.6em;
+  font-size: 1.1em;
+  border: none;
+  border-radius: 8px;
+  background-color: #9a9b94;
+  color: #52524e;
+}
+
+header button:hover {
+  cursor: pointer;
+  background-color: #e9e9e5;
+}
+
+main {
+  height: 93vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #e9e9e5;
+}
+
+.container-today {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 7vh;
+  width: 91vw;
+}
+
+.container-calendar {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  height: 78vh;
+  width: 91vw;
+}
+
+.days-calendar {
+  display: flex;
+  height: 7vh;
+  width: 91vw;
+}
+
+.days-calendar div {
+  height: 7vh;
+  width: 13vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendar {
+  height: 66vh;
+  width: 91vw;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.calendar-animation-left {
+  animation-name: moveLeft;
+  animation-duration: 1.5s;
+}
+
+@keyframes moveLeft {
+  from {
+    margin-left: 100%;
+    opacity: 0;
+  }
+  to {
+    margin-left: 0%;
+    opacity: 1;
+  }
+}
+
+.calendar-animation-right {
+  animation-name: moveRight;
+  animation-duration: 1.5s;
+}
+
+@keyframes moveRight {
+  from {
+    margin-left: -100%;
+    opacity: 0;
+  }
+  to {
+    margin-left: 0%;
+    opacity: 1;
+  }
+}
+
+.days {
+  height: 11.5vh;
+  width: 12.4vw;
+  margin: 0.1vw 0.3vw;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  position: relative;
+  border-bottom: 1px solid #b2b2b2;
+  border-right: 1px solid #b2b2b2;
+}
+
+.disabled-day {
+  opacity: 0.2;
+}
+
+.btn-disactivated {
+  font-size: 1.7em;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  background-color: #e9e9e5;
+  cursor: pointer;
+  border: none;
+  padding: 0em 0.25em;
+  color: 9A9B94;
+  display: none;
+  border-radius: 8px;
+  border: 1px solid #9a9b94;
+}
+
+.btn-disactivated:hover {
+  display: flex;
+  background-color: #52524e;
+  color: #e9e9e5;
+  border: 1px solid #52524e;
+}
+
+.btn-activated {
+  display: flex;
+}
+
+.days h4 {
+  position: absolute;
+  padding: 0.2em 0.3em;
+}
+
+.container-display-events {
+  padding: 1.6em 0.1em 0.1em 0.1em;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  overflow-y: auto;
+  direction: rtl;
+  cursor: pointer;
+}
+
+.container-display-events::-webkit-scrollbar {
+  width: 6px;
+  background-color: #e9e9e5;
+}
+
+.container-display-events::-webkit-scrollbar-thumb {
+  width: 6px;
+  background-color: #9a9b94;
+  border-radius: 5px;
+}
+
+.container-display-events div {
+  direction: ltr;
+  margin-bottom: 1px;
+  padding: 0.1em;
+  font-size: 0.8em;
+  width: 100%;
+}
+
+.expired-event {
+  background-color: rgba(186, 186, 186, 0.183);
+  color: rgba(0, 0, 0, 0.235);
+}
+
+.todayDay {
+  border-bottom: 2px solid #9a9b94;
+  border-right: 2px solid #9a9b94;
+}
+
+.todayDay h4 {
+  color: #52524e;
+}
+
+#leftArrow,
+#rightArrow {
+  cursor: pointer;
+  color: #9a9b94;
+}
+
+#leftArrow:hover,
+#rightArrow:hover {
+  color: #52524e;
+}
+
+/* MODAL STYLE */
+
+.modal-add-edit-event {
+  height: 80vh;
+  width: 50vw;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  position: absolute;
+  top: 10vh;
+  left: 25vw;
+  background-color: #52524e;
+  box-shadow: 0px 0px 7px #52524e;
+}
+
+.modal-active {
+  z-index: 2;
+  display: flex;
+}
+
+#closeModal {
+  position: absolute;
+  background-color: transparent;
+  border: none;
+  font-size: 1.3em;
+  top: 10px;
+  right: 18px;
+  cursor: pointer;
+}
+
+form {
+  height: 70vh;
+  width: 50vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+input,
+select {
+  background-color: #e9e9e5;
+  border: none;
+  border-radius: 5px;
+  padding: 2px;
+  width: 75%;
+  color: #52524e;
+}
+
+label {
+  display: flex;
+  width: 70%;
+  justify-content: space-between;
+}
+
+.checkbox-label {
+  justify-content: flex-start;
+}
+
+.description-label {
+  flex-direction: column;
+}
+
+textarea {
+  background-color: #e9e9e5;
+  resize: none;
+  border-radius: 5px;
+  margin-top: 3px;
+  color: #52524e;
+}
+
+fieldset {
+  width: 70%;
+  height: 8vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #9a9b94;
+  border-radius: 5px;
+}
+
+fieldset div {
+  width: 900%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+fieldset label {
+  margin-top: 0.1em;
+  width: 3vw;
+  height: 3vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3em;
+}
+
+#colorFF6464 {
+  color: #ff6464;
+}
+
+#color9EB23B {
+  color: #9eb23b;
+}
+
+#color54BAB9 {
+  color: #54bab9;
+}
+
+#colorD9CB50 {
+  color: #d9cb50;
+}
+
+#checkEndDate,
+#checkReminder {
+  width: 2.6vh;
+  height: 2.6vh;
+  margin-right: 3px;
+}
+
+option {
+  color: #52524e;
+}
+
+.modal-container-btn-add {
+  display: none;
+}
+
+.btns-active button {
+  font-size: 1.2em;
+  width: 48%;
+  height: 4vh;
+  color: #52524e;
+  background-color: #9a9b94;
+  border: none;
+  border-radius: 5px;
+  border: 1px solid #9a9b94;
+  cursor: pointer;
+}
+
+#cancelModalAddEvent,
+#deleteEvent {
+  background-color: #52524e;
+  color: #9a9b94;
+}
+
+#createEvent:hover,
+#editEvent:hover,
+#cancelModalAddEvent:hover,
+#deleteEvent:hover {
+  background-color: #b2b2b2;
+  color: #e9e9e5;
+  border: 1px solid #52524e;
+}
+
+.modal-container-btn-edit {
+  display: none;
+}
+
+.btns-active {
+  width: 70%;
+  display: flex;
+  margin-top: 10px;
+  justify-content: space-between;
+}
+
+.datetime-finish {
+  display: none;
+}
+
+.datetime-finish-active {
+  display: flex;
+}
+
+.reminder {
+  display: none;
+}
+
+.reminder-active {
+  display: flex;
+}
+
+.warning-modal,
+.modal-confirm-delete {
+  min-height: 20vh;
+  width: 40vw;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  position: absolute;
+  top: 25vh;
+  left: 30vw;
+  box-shadow: 0px 0px 7px #52524e;
+  padding: 1em;
+  background-color: #52524e;
+}
+
+.open-confirm-delete {
+  font-size: 3em;
+  top: 12.5vh;
+  left: 26vw;
+  height: 75vh;
+  width: 48vw;
+  display: flex;
+  z-index: 6;
+  background-color: #ff6464;
+}
+
+.modal-confirm-delete h3 {
+  color: #52524e;
+}
+
+.modal-confirm-delete div {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-confirm-delete button {
+  font-size: 1em;
+  width: 48%;
+  cursor: pointer;
+  background-color: #52524e;
+  border: none;
+  border-radius: 5px;
+}
+
+.modal-confirm-delete button:hover {
+  background-color: #e9e9e5;
+  color: #52524e;
+}
+
+.warning-active {
+  z-index: 4;
+  display: flex;
+}
+
+.warning-symbol {
+  font-size: 3.8em;
+}
+
+.title-event-expired,
+.reminder-span {
+  font-size: 23px;
+}
+
+#closeWarningExpired,
+#closeWarningTimeBefore {
+  font-size: 1.5em;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  position: absolute;
+  right: 0.4em;
+  top: 0pt;
+}
+
+#containerEventsExpired,
+#containerRemindBeforeExpire {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+  padding-top: 1em;
+}
+
+#containerEventsExpired h4,
+#containerRemindBeforeExpire h4 {
+  margin-bottom: 1em;
+}

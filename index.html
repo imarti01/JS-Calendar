@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JS Calendar</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/assets/css/style.css" />
   </head>
   <body>
     <div class="container-main-page">
@@ -78,7 +78,6 @@
     </div>
     <div class="modal-add-edit-event">
       <button id="closeModal">🗙</button>
-      <h2>New Event</h2>
       <form>
         <label>
           Title:
@@ -88,7 +87,7 @@
           Initial date:
           <input type="datetime-local" name="datetime-start" required />
         </label>
-        <label>
+        <label class="checkbox-label">
           <input type="checkbox" id="checkEndDate" />
           End date
         </label>
@@ -100,12 +99,12 @@
             class="datetime-finish"
           />
         </label>
-        <label>
+        <label class="checkbox-label">
           <input type="checkbox" id="checkReminder" />
           Remind me when this event expires
         </label>
         <label class="reminder">
-          &#128276;
+          Time:
           <select name="time-remind" class="reminder">
             <option value="" disabled selected>Choose an option</option>
             <option value="5min">5 minutes before</option>
@@ -115,11 +114,29 @@
             <option value="1hour">1 hour before</option>
           </select>
         </label>
-        <label>
-          Color reminder:
-          <input type="color" value="#227C70" name="color" />
-        </label>
-        <label>
+        <fieldset>
+          <legend>Color reminder:</legend>
+          <div id="colorReminder">
+            <label id="colorFF6464">
+              <input type="radio" value="#FF6464" name="color" checked />
+              ￭
+            </label>
+            <label id="color9EB23B">
+              <input type="radio" value="#9EB23B" name="color" />
+              ￭
+            </label>
+            <label id="color54BAB9">
+              <input type="radio" value="#54BAB9" name="color" />
+              ￭
+            </label>
+            <label id="colorD9CB50">
+              <input type="radio" value="#D9CB50" name="color" />
+              ￭
+            </label>
+          </div>
+        </fieldset>
+
+        <label class="description-label">
           Description:
           <textarea
             name="description"
@@ -135,7 +152,6 @@
             <option value="meeting">Meeting</option>
             <option value="personal">Personal</option>
             <option value="study">Study</option>
-            <option value="medical">Medical</option>
             <option value="other">Other</option>
           </select>
         </label>
@@ -149,11 +165,25 @@
         </div>
       </form>
     </div>
-    <div class="warning-event-expired">
+    <div class="modal-confirm-delete">
+      <h3>Are You sure to delete this event?</h3>
+      <div>
+        <button id="btnNoDelete">No</button>
+        <button id="btnYesDelete">Yes</button>
+      </div>
+    </div>
+    <div class="warning-modal warning-event-expired">
       <button id="closeWarningExpired">🗙</button>
-      <h2 class="warning-symbol-expired">&#9888;</h2>
+      <h2 class="warning-symbol">&#9888;</h2>
       <div id="containerEventsExpired"></div>
     </div>
-    <script src="app.js"></script>
+    <div class="warning-modal warning-time-before-expire">
+      <button id="closeWarningTimeBefore">🗙</button>
+      <h2 class="warning-symbol">ⓘ</h2>
+      <div id="containerRemindBeforeExpire"></div>
+    </div>
+    <script src="/assets/js/app.js"></script>
+    <script src="/assets/js/warnings.js"></script>
+    <script src="/assets/js/var.js"></script>
   </body>
 </html>
