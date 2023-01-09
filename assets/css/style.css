@@ -95,7 +95,7 @@ main {
 
 .calendar-animation-left {
   animation-name: moveLeft;
-  animation-duration: 1.5s;
+  animation-duration: 1.4s;
 }
 
 @keyframes moveLeft {
@@ -111,7 +111,7 @@ main {
 
 .calendar-animation-right {
   animation-name: moveRight;
-  animation-duration: 1.5s;
+  animation-duration: 1.4s;
 }
 
 @keyframes moveRight {
